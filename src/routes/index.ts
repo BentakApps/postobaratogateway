@@ -6,6 +6,7 @@ import express, {Request, Response, NextFunction} from 'express';
 import stationsRouter from './stations.js';
 import fuelsRouter from './fuels.js';
 
+
 const router = express.Router();
 
 //sub-routes
@@ -16,12 +17,6 @@ router.use('/fuels', fuelsRouter);
 router.get('/payments', async (req: Request, res: Response, next: NextFunction) => {
   const payments = await NetworkService.getPaymentList();
   res.json(payments.data);
-});
-router.get('/keys', (req: Request, res: Response, next: NextFunction) => {
-  res.json({
-    release:"AIzaSyCZe8JeuQjd_vhdmezW1RUxHlmenzN1lkg",
-    debug:  "AIzaSyCZe8JeuQjd_vhdmezW1RUxHlmenzN1lkg"
-  });
 });
 
 router.use(cookieParser());
