@@ -2,6 +2,8 @@ import Area from "@util/interfaces/Area";
 //import Station from "@util/interfaces/Station";
 import http from "node:http";
 import axios, { AxiosResponse } from "axios";
+import { Buffer } from "node:buffer";
+import FormData from "form-data";
 
 class NetworkService {
   // private static readonly auth = axios.create({
@@ -31,6 +33,9 @@ class NetworkService {
     //   host: 'places',
     //   port: 8083,
     // }
+  });
+  private static readonly excelreader = axios.create({
+    baseURL: 'http://excelreader'
   });
 
   public static readonly getStationsFromDB = async (area:Area) => {
@@ -123,6 +128,15 @@ class NetworkService {
   }
   public static readonly logout = async () => {
     return await this.auth.post('/logout');
+  }
+  public static readonly uploadExcel = async (fileData:Buffer) => {
+    const formData = new FormData();
+    formData.append("file", fileData);
+    return await this.excelreader.post('/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
   }
 }
 
